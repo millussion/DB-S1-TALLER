@@ -126,7 +126,7 @@ Factura ↔ Producto → resuelta con la tabla intermedia `DetalleFactura`.
 
 ### ¿Existen atributos duplicados?
 
-Sí. Se identificaron varios atributos repetidos en múltiples registros:
+Sí:
 
 - CustomerName
 - CustomerCity
@@ -154,8 +154,6 @@ Esto indica que existen datos que pertenecen a entidades independientes y no dir
 ### ¿Existen dependencias transitivas?
 
 Sí.
-
-Se encontraron las siguientes dependencias transitivas:
 
 - CustomerName → CustomerCity
 - Branch → BranchCity
