@@ -119,3 +119,66 @@ Factura ↔ Producto → resuelta con la tabla intermedia `DetalleFactura`.
 | id_cliente | → | nombre_cliente, ciudad_cliente |
 | id_sucursal | → | nombre_sucursal, ciudad_sucursal |
 | (numero_factura, id_producto) | → | cantidad, precio_unitario |
+
+---
+
+## Fase 5. Revisión y Refinamiento del Modelo.
+
+### ¿Existen atributos duplicados?
+
+Sí. Se identificaron varios atributos repetidos en múltiples registros:
+
+- CustomerName
+- CustomerCity
+- SalesRep
+- Branch
+- BranchCity
+- ProductName
+- Category
+- PaymentMethod
+
+Estos datos aparecen repetidamente porque una factura puede contener varios productos y porque varios clientes pueden comprar los mismos productos.
+
+### ¿Existen dependencias parciales?
+
+Sí.
+
+Al utilizar inicialmente **InvoiceNumber** como clave principal, algunos atributos no dependen completamente de ella:
+
+- ProductName → Category, UnitPrice
+- Branch → BranchCity
+- CustomerName → CustomerCity
+
+Esto indica que existen datos que pertenecen a entidades independientes y no directamente a la factura.
+
+### ¿Existen dependencias transitivas?
+
+Sí.
+
+Se encontraron las siguientes dependencias transitivas:
+
+- CustomerName → CustomerCity
+- Branch → BranchCity
+- ProductName → Category
+- InvoiceNumber → CustomerName → CustomerCity
+- InvoiceNumber → Branch → BranchCity
+
+Estas dependencias generan redundancia y posibles inconsistencias en la base de datos.
+
+### ¿Todas las entidades representan conceptos del negocio?
+
+Sí. Las entidades identificadas corresponden a elementos reales del proceso comercial:
+
+- Cliente
+- Asesor Comercial
+- Sucursal
+- Producto
+- Categoría
+- Factura
+- DetalleFactura
+- Pago
+
+### ¿Las relaciones reflejan correctamente la realidad del proceso?
+
+Sí, pero fue necesario separar la información en entidades independientes para evitar duplicidad de datos y facilitar la normalización.
+
