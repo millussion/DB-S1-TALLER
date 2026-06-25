@@ -124,7 +124,7 @@ Factura ↔ Producto → resuelta con la tabla intermedia `DetalleFactura`.
 
 ## Fase 5. Revisión y Refinamiento del Modelo.
 
-### ¿Existen atributos duplicados?
+### 1. ¿Existen atributos duplicados?
 
 Sí:
 
@@ -139,7 +139,7 @@ Sí:
 
 Estos datos aparecen repetidamente porque una factura puede contener varios productos y porque varios clientes pueden comprar los mismos productos.
 
-### ¿Existen dependencias parciales?
+### 2. ¿Existen dependencias parciales?
 
 Sí.
 
@@ -151,7 +151,7 @@ Al utilizar inicialmente **InvoiceNumber** como clave principal, algunos atribut
 
 Esto indica que existen datos que pertenecen a entidades independientes y no directamente a la factura.
 
-### ¿Existen dependencias transitivas?
+### 3. ¿Existen dependencias transitivas?
 
 Sí.
 
@@ -163,7 +163,7 @@ Sí.
 
 Estas dependencias generan redundancia y posibles inconsistencias en la base de datos.
 
-### ¿Todas las entidades representan conceptos del negocio?
+### 4. ¿Todas las entidades representan conceptos del negocio?
 
 Sí. Las entidades identificadas corresponden a elementos reales del proceso comercial:
 
@@ -176,7 +176,20 @@ Sí. Las entidades identificadas corresponden a elementos reales del proceso com
 - DetalleFactura
 - Pago
 
-### ¿Las relaciones reflejan correctamente la realidad del proceso?
+### 5. ¿Las relaciones reflejan correctamente la realidad del proceso?
 
 Sí, pero fue necesario separar la información en entidades independientes para evitar duplicidad de datos y facilitar la normalización.
 
+<img width="1377" height="793" alt="image" src="https://github.com/user-attachments/assets/682d2960-58a7-4b27-98d9-dbaf2ee2d09b" />
+
+
+---
+
+## Fase 6. Normalización
+
+### 1. Primera Forma Normal (1FN)
+
+
+### 2. Segunda Forma Normal (2FN)
+
+### 3. Tercera Forma Normal (3FN)
