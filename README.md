@@ -174,7 +174,6 @@ Sí. Las entidades identificadas corresponden a elementos reales del proceso com
 - Categoría
 - Factura
 - DetalleFactura
-- Pago
 
 ### 5. ¿Las relaciones reflejan correctamente la realidad del proceso?
 
@@ -189,7 +188,110 @@ Sí, pero fue necesario separar la información en entidades independientes para
 
 ### 1. Primera Forma Normal (1FN)
 
+La tabla plana original se dividió en 8 tablas independientes
+•	Cada celda contiene exactamente un valor (sin listas separadas por comas ni campos multivalorados).
+•	Cada tabla tiene una clave primaria definida.
+
+Osea que el modelo si cumple la Primera Forma Normal (1FN).
 
 ### 2. Segunda Forma Normal (2FN)
 
 ### 3. Tercera Forma Normal (3FN)
+
+## Fase 9. Consultas SQL
+### 1. Listar todos los clientes.
+SELECT id_cliente, nombre_cliente, ciudad_cliente
+FROM Cliente
+ORDER BY nombre_cliente;
+
+### 2.	Mostrar todos los productos con su categoría.
+SELECT p.id_producto, p.nombre_producto, p.precio_unitario,
+       c.nombre_categoria
+FROM Producto p
+JOIN Categoria c ON p.id_categoria = c.id_categoria
+ORDER BY c.nombre_categoria, p.nombre_producto;
+
+### 3.	Consultar las facturas emitidas por ciudad.
+SELECT s.ciudad_sucursal, COUNT(f.numero_factura) AS total_facturas
+FROM Factura f
+JOIN Sucursal s ON f.id_sucursal = s.id_sucursal
+GROUP BY s.ciudad_sucursal
+ORDER BY total_facturas DESC;
+
+### 4.	Obtener el total vendido por cliente.
+SELECT c.nombre_cliente,
+       SUM(df.cantidad * df.precio_unitario) AS total_vendido
+FROM DetalleFactura df
+JOIN Factura f  ON df.numero_factura = f.numero_factura
+JOIN Cliente c  ON f.id_cliente      = c.id_cliente
+GROUP BY c.id_cliente, c.nombre_cliente
+ORDER BY total_vendido DESC;
+
+### 5.	Obtener el total vendido por categoría.
+SELECT cat.nombre_categoria,
+       SUM(df.cantidad * df.precio_unitario) AS total_vendido
+FROM DetalleFactura df
+JOIN Producto  p   ON df.id_producto   = p.id_producto
+JOIN Categoria cat ON p.id_categoria   = cat.id_categoria
+GROUP BY cat.id_categoria, cat.nombre_categoria
+ORDER BY total_vendido DESC;
+
+### 6.	Mostrar las facturas atendidas por cada asesor comercial.
+SELECT a.nombre_asesor,
+       f.numero_factura, f.fecha_orden,
+       c.nombre_cliente
+FROM Factura f
+JOIN AsesorComercial a ON f.id_asesor  = a.id_asesor
+JOIN Cliente         c ON f.id_cliente = c.id_cliente
+ORDER BY a.nombre_asesor, f.fecha_orden;
+
+### 7.	Consultar los productos más vendidos.
+SELECT p.nombre_producto,
+       SUM(df.cantidad) AS unidades_vendidas,
+       SUM(df.cantidad * df.precio_unitario) AS ingresos_total
+FROM DetalleFactura df
+JOIN Producto p ON df.id_producto = p.id_producto
+GROUP BY p.id_producto, p.nombre_producto
+ORDER BY unidades_vendidas DESC;
+
+### 8.	Mostrar las sucursales y la cantidad de facturas gestionadas.
+SELECT s.nombre_sucursal, s.ciudad_sucursal,
+       COUNT(f.numero_factura) AS cantidad_facturas
+FROM Sucursal s
+LEFT JOIN Factura f ON s.id_sucursal = f.id_sucursal
+GROUP BY s.id_sucursal, s.nombre_sucursal, s.ciudad_sucursal
+ORDER BY cantidad_facturas DESC;
+
+### 9.	Consultar ventas realizadas mediante un método de pago específico.
+Aqui el ejemplo es de una transferencia
+SELECT f.numero_factura, f.fecha_orden,
+       c.nombre_cliente,
+       SUM(df.cantidad * df.precio_unitario) AS total_factura
+FROM Factura f
+JOIN MetodoPago mp     ON f.id_metodo_pago = mp.id_metodo_pago
+JOIN Cliente    c      ON f.id_cliente      = c.id_cliente
+JOIN DetalleFactura df ON f.numero_factura  = df.numero_factura
+WHERE mp.nombre_metodo = 'Transferencia'
+GROUP BY f.numero_factura, f.fecha_orden, c.nombre_cliente
+ORDER BY f.fecha_orden;
+
+### 10.	Obtener el valor total de cada factura. 
+SELECT f.numero_factura, f.fecha_orden,
+       c.nombre_cliente,
+       a.nombre_asesor,
+       s.nombre_sucursal,
+       mp.nombre_metodo,
+       SUM(df.cantidad * df.precio_unitario) AS total_factura
+FROM Factura f
+JOIN Cliente         c  ON f.id_cliente      = c.id_cliente
+JOIN AsesorComercial a  ON f.id_asesor       = a.id_asesor
+JOIN Sucursal        s  ON f.id_sucursal     = s.id_sucursal
+JOIN MetodoPago      mp ON f.id_metodo_pago  = mp.id_metodo_pago
+JOIN DetalleFactura  df ON f.numero_factura  = df.numero_factura
+GROUP BY f.numero_factura, f.fecha_orden,
+         c.nombre_cliente, a.nombre_asesor,
+         s.nombre_sucursal, mp.nombre_metodo
+ORDER BY f.fecha_orden;
+
+
+
