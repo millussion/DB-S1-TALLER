@@ -179,7 +179,7 @@ Sí. Las entidades identificadas corresponden a elementos reales del proceso com
 
 Sí, pero fue necesario separar la información en entidades independientes para evitar duplicidad de datos y facilitar la normalización.
 
-<img width="1377" height="793" alt="image" src="https://github.com/user-attachments/assets/682d2960-58a7-4b27-98d9-dbaf2ee2d09b" />
+<img width="1536" height="1024" alt="WhatsApp Image 2026-06-25 at 6 00 22 PM" src="https://github.com/user-attachments/assets/e6920b3a-143c-4043-97e5-885a3f65fc48" />
 
 
 ---
@@ -197,6 +197,8 @@ Osea que el modelo si cumple la Primera Forma Normal (1FN).
 ### 2. Segunda Forma Normal (2FN)
 
 ### 3. Tercera Forma Normal (3FN)
+
+<img width="1377" height="793" alt="image" src="https://github.com/user-attachments/assets/682d2960-58a7-4b27-98d9-dbaf2ee2d09b" />
 
 ## Fase 9. Consultas SQL
 ### 1. Listar todos los clientes.
